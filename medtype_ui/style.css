@@ -1,0 +1,220 @@
+html, body {
+    height: 100%;
+}
+/*
+font-family"
+
+/Users/
+font-family","font-weight","
+font-family: ",";\n    font-
+font-family font-size font-size-
+font-family|font|float|flex-wrap|
+font-family","font-feature-
+font-family:'Helvetica Neue',Arial,
+font-family:'Ubuntu Mono',monospace!
+font-family:"Source Sans Pro";font-
+font-family:"Roboto Mono";font-style:
+font-family:sans-serif;line-height:
+font-family:Lato,Helvetica Neue,Helvetica,-
+font-family:Roboto Mono,SFMono-Regular,
+font-family:inherit;line-height:
+font-family:Arial,Hiragino Sans GB,
+font-family:SimSun,sans-serif;line-
+font-family:inherit;font-style:inherit;
+font-family:Arial;text-align:center;
+font-family:Arial;line-height:32px;
+*/
+body {
+    font-family: "Arial";
+    font-size: 13pt;
+
+    background: whiteSmoke;
+    color: #000;
+    margin: 0px;
+}
+.CodeMirror {
+    font: inherit;
+    height: auto;
+    width: 100%;
+    // position: absolute;
+    line-height: 1.5;
+    min-height: 100%;
+}
+
+.CodeMirror pre.CodeMirror-placeholder { color: #999; }
+
+.CodeMirror-focused .CodeMirror-selected { background: #bedcfb; }
+
+.CodeMirror-lines {
+    padding: 50px 0;
+}
+.CodeMirror pre {
+    padding: 0 100px;
+}
+#canvas {
+    display: none;
+}
+#editor {
+    flex: 1;
+    position: relative;
+    display: flex;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#workaround {
+    /*min-height: 100vh;*/
+}
+
+#workaround {
+    display: flex;
+    flex-direction: column;
+}
+
+#toolbar {
+    padding: 15px 100px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #4a4a4a; 
+    border-bottom: 1px solid #b5b5b5;
+    display: flex;
+}
+
+
+footer {
+    padding: 10px;
+    display: flex;
+    overflow: hidden;
+    border-top: 1px solid #c7c7c7;
+}
+
+.spacer {
+    flex-grow: 1;
+    font-family: "Arial";
+    color: white;
+    font-weight: 900; 
+
+}
+
+a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.waiting {
+    display: inline-block;
+    border: 5px solid #dadada;
+    border-top: 5px solid #97cc70;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    animation: spin 1s linear infinite;
+    margin: 0 5px;
+    position: absolute;
+}
+
+.writer {
+    letter-spacing: 1px;
+    
+    display: block;
+    margin: 50px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+
+    overflow-y: scroll;
+    height: 95px;
+    padding: 10px;
+    line-height: 1.5;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+
+#preamble {
+    padding: 20px 100px;
+    opacity: 0.8;
+    
+    
+    background: white;
+    color: #f7f7f7;
+    // position: absolute;
+}
+
+select {
+    font-size: 110%;
+    background: rgb(255, 255, 255);
+    color: #4a4a4a;
+}
+
+
+#weirdness-stuff {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    /* margin-bottom: -10px; */
+    // border: 1px solid #e2e2e2;
+    padding: 10px;
+}
+
+
+.CodeMirror #preamble {
+    border-bottom: 1px solid #ccc;
+}
+
+#do-stuff {
+    padding: 6px 15px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: #429D34;
+    border: 0;
+    border-radius: 5px;
+    font-size: 117%;
+    font-family: Menlo, monospace;
+    cursor: pointer;
+    color: white;
+}
+// #do-stuff::after {
+//     content: " <Tab>"
+// }
+
+@media (max-width: 900px){
+    #preamble, #toolbar {
+        padding: 15px 20px;
+    }
+    .CodeMirror pre {
+        padding: 0 20px;
+    }
+    #weirdness-stuff {
+        display: none !important;
+    }
+    select, #do-stuff {
+        font-size: 120%;
+    }
+    #do-stuff {
+        width: 100%;
+        border-radius: 0;
+        bottom: 0;
+        right: 0;
+        box-sizing: border-box;
+    }
+}
