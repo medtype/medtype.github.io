@@ -227,6 +227,9 @@
                     add_token(tokens[j], null, false)
                 }
             }
+            
+            document.getElementById('model_picker').disabled = false;
+            document.getElementById('linker_picker').disabled = false;
             $('.notifyjs-wrapper').trigger('notify-hide');
         }
 
@@ -268,9 +271,6 @@
                     window.open("https://128.2.204.127:8125/run_linker");
                 },
             });
-
-            document.getElementById('model_picker').disabled = false;
-            document.getElementById('linker_picker').disabled = false;
         }
 
         function copyToClipboard(text) {
