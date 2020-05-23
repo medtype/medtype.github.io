@@ -78,7 +78,8 @@
                     </select>
                 </span>
                 <span class="spacer"></span>
-            
+                
+                <button id="umls-link" onclick="launch_umls()">UMLS Lookup ›</button>
                 <button id="do-stuff" onclick="call_linker()">Run ›</button>
             </div>
              <div id="editor">
@@ -235,6 +236,10 @@
             document.execCommand("copy");
             $temp.remove();
             $.notify("Copied " + text, "success");
+        }
+
+        function launch_umls(){
+            window.open("https://uts.nlm.nih.gov/metathesaurus.html");
         }
 
     </script>

@@ -193,6 +193,21 @@ select {
     cursor: pointer;
     color: white;
 }
+
+#umls-link {
+    padding: 6px 15px;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background: #999;
+    border: 0;
+    border-radius: 5px;
+    font-size: 117%;
+    font-family: Menlo, monospace;
+    cursor: pointer;
+    color: white;
+}
+
 // #do-stuff::after {
 //     content: " <Tab>"
 // }
@@ -215,6 +230,14 @@ select {
         border-radius: 0;
         bottom: 0;
         right: 0;
+        box-sizing: border-box;
+    }
+
+    #umls-link {
+        width: 100%;
+        border-radius: 0;
+        bottom: 0;
+        left: 0;
         box-sizing: border-box;
     }
 }
