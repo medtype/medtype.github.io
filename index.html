@@ -146,7 +146,47 @@
             }
 
             else{
+                mentions = _.sortBy(mentions, [function(x) {return x['end_offset'];} ])
+
+                console.log('before')
+                console.log(mentions)
+                // Remove overlapping mentions
+                for (i = mentions.length-1; i > 0 && i < mentions.length; i--){
+                    curr = mentions[i]
+                    prev = mentions[i-1]
+
+                    if (curr['end_offset'] == prev['end_offset']){
+                        if ((curr['end_offset'] - curr['start_offset']) > (prev['end_offset'] - prev['start_offset'])){
+                            mentions.splice(i-1, 1)
+                        }
+                        else {
+                            mentions.splice(i, 1)
+                        }
+                    }
+                }
+
+
                 mentions = _.sortBy(mentions, [function(x) {return x['start_offset'];} ])
+
+                console.log('before')
+                console.log(mentions)
+                // Remove overlapping mentions
+                for (i = mentions.length-1; i > 0 && i < mentions.length; i--){
+                    curr = mentions[i]
+                    prev = mentions[i-1]
+
+                    if (curr['start_offset'] == prev['start_offset']){
+                        if ((curr['end_offset'] - curr['start_offset']) > (prev['end_offset'] - prev['start_offset'])){
+                            mentions.splice(i-1, 1)
+                        }
+                        else {
+                            mentions.splice(i, 1)
+                        }
+                    }
+                }
+
+                console.log('after')
+                console.log(mentions)
 
                 for (i=0; i < mentions.length; i++){
                     offsets.push([mentions[i]['start_offset'], mentions[i]['end_offset']])
@@ -187,9 +227,12 @@
                     add_token(tokens[j], null, false)
                 }
             }
+            $('.notifyjs-wrapper').trigger('notify-hide');
         }
 
         function call_linker(){
+            $.notify("Loading", "info");
+
             document.getElementById('model_picker').disabled = true;
             document.getElementById('linker_picker').disabled = true;
 
@@ -242,6 +285,12 @@
         function launch_umls(){
             window.open("https://uts.nlm.nih.gov/metathesaurus.html");
         }
+
+        $(document).keydown(function(event) {            
+            if ((event.ctrlKey && event.keyCode === 13) || (event.metaKey && event.keyCode === 13)) {
+                call_linker()
+            }
+        })
 
     </script>
 
