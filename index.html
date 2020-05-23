@@ -92,12 +92,7 @@
                 <div class="model__content model__content--ner-output">
                     <div class="Form__FormField-sc-1mucple-0 hdCOWv">
                         <div id="results" class="passage model__content__summary highlight-container highlight-container--bottom-labels">  
-                            <span class="highlight bottom orange " data-label="LOC" onclick="copyToClipboard('C0041296')">                             
-                                <span class="highlight__content">Tuberculosis </span>                           
-                                <span class="highlight__label"> <strong>C0041296</strong> </span>                             
-                                <span class="highlight__label"> <strong>Disease or Syndrome</strong> </span>                             
-                                <span class="highlight__tooltip">C0041296</span>                       
-                            </span>
+                            
                         </div>
                     </div>
                 </div>
@@ -113,6 +108,7 @@
         colors = ['fuchsia ', 'blue', 'red', 'green', 'purple', 'orange', 'pink', 'teal', 'cobalt', 'blue', 'red', 'green', 'purple', 'orange', 'pink', 'teal', 'cobalt', 'brown',  'gray', 'slate', 'tan']
 
         function add_token(token, info, is_annotated){
+            console.log(token, info, is_annotated)
             var tag = document.createElement("span");
 
             if (is_annotated && info['filtered_candidates'].length != 0){
@@ -157,6 +153,7 @@
                 }
                 console.log(offsets)
 
+                console.log('beginning')
                 first_start = offsets[0][0]
                 if (first_start != 0){
                     tokens = text.substring(0, first_start).split(' ')
@@ -165,6 +162,7 @@
                     }
                 }
 
+                console.log('middle')
                 for (i=0; i < offsets.length - 1; i++){
                     start     = offsets[i][0]
                     end       = offsets[i][1]
@@ -177,6 +175,8 @@
                         add_token(tokens[j], null, false)
                     }
                 }
+
+                console.log('end')
 
                 last_start = offsets[offsets.length - 1][0]
                 last_end   = offsets[offsets.length - 1][1]
@@ -221,7 +221,8 @@
                 contentType: "application/json",
                 error: function(e) {
                     $.notify("Error encoutered while accessing the server");
-                    alert('Go here: "https://128.2.204.127:8125/run_linker" and accept the certificate.')
+                    alert('Need to accept the certificate. Press ok to continue.')
+                    window.open("https://128.2.204.127:8125/run_linker");
                 },
             });
 
