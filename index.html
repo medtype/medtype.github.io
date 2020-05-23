@@ -53,9 +53,7 @@
             <center>
                 <img src="./medtype_ui/images/logo_noback.png" align="top middle" alt="centered image" style="width: 25em;">
                 <p><a href="https://arxiv.org/abs/2005.00460">Improving Medical Entity Linking with Semantic Type Prediction </a></p>
-                <!-- <img src="./medtype_ui/images/overview.png" align="top middle" alt="centered image" style="width: 50em;"> -->
             </center>
-            <!-- <p>MedType is a BERT-based entity disambiguation module which can be incorporated with an any existing medical entity linker for enhancing its performance. For a given input text, MedType takes in the set of identified mentions along with their list of candidate concepts as input. Then, for each mention MedType predicts its semantic type based on its context in the text. The identified semantic type is utilized to disambiguate extracted mentions by filtering the candidate concepts. The results demonstrate that MedType achieves state-of-the-art performance for medical entity linking task. Please refer to the paper for more details.</p>             -->
         </div>
         <div id="workaround">
             <div id="toolbar" style="">
@@ -80,13 +78,7 @@
                     </select>
                 </span>
                 <span class="spacer"></span>
-
             
-                <!-- <span id="weirdness-stuff"> Threshold:
-                    <input id="threshold" oninput="document.getElementById(&#39;temp&#39;).innerHTML = (+this.value).toFixed(2)" onchange="updateCompletion()" type="range" style="width: 300px" value="0.5" min="0.0" max="1" step="0.01">
-                    <span id="thresh">0.5</span>
-                </span> -->
-                <!-- &rarr; -->
                 <button id="do-stuff" onclick="call_linker()">Run ›</button>
             </div>
              <div id="editor">
@@ -98,41 +90,13 @@
                 <div class="pane__thumb"></div>
                 <div class="model__content model__content--ner-output">
                     <div class="Form__FormField-sc-1mucple-0 hdCOWv">
-                        <div id="results" class="passage model__content__summary highlight-container highlight-container--bottom-labels">   
-                            
-                           <!--  <span class="highlight bottom teal " data-label="ORG"> 
-                            <span class="highlight__content">AllenNLP </span>
-                            <span class="highlight__label"> <strong>ORG</strong> </span>
-                            <span class="highlight__tooltip">Organization</span>
-                            </span> <span>is </span>
-                            <span>a </span>
-                            <span class="highlight bottom blue " data-label="ORG"> 
-                                <span class="highlight__content">PyTorch </span>
-                                <span class="highlight__label"> <strong>ORG</strong> </span>
-                                <span class="highlight__tooltip">Organization</span>
-                            </span> 
-                            <span>- </span>
-                            <span>based </span>
-                            <span>natural </span>
-                            <span>language </span>
-                            <span>processing </span>
-                            <span>library </span>
-                            <span>developed </span>
-                            <span>at </span>
-                            <span>the </span>
-                            <span class="highlight bottom blue" data-label="ORG"> 
-                                <span class="highlight__content">Allen Institute  for  Artificial  Intelligence a sdfasd fasd fasdf asdf asdf asdf asdf adf </span>
-                                <span class="highlight__label"> <strong>ORG</strong> </span>
-                                <span class="highlight__tooltip">Organization</span>
-                            </span> 
-                            <span>in </span>
-                            <span class="highlight bottom green " data-label="LOC"> 
-                                <span class="highlight__content">Seattle </span>
-                                <span class="highlight__label"> <strong>LOC</strong> </span>
-                                <span class="highlight__tooltip">Location</span>
-                            </span> 
-                            <span>. </span> -->
-
+                        <div id="results" class="passage model__content__summary highlight-container highlight-container--bottom-labels">  
+                            <span class="highlight bottom orange " data-label="LOC" onclick="copyToClipboard('C0041296')">                             
+                                <span class="highlight__content">Tuberculosis </span>                           
+                                <span class="highlight__label"> <strong>C0041296</strong> </span>                             
+                                <span class="highlight__label"> <strong>Disease or Syndrome</strong> </span>                             
+                                <span class="highlight__tooltip">C0041296</span>                       
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -143,21 +107,26 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="./medtype_ui/lodash.js"></script>
+    <script src="./medtype_ui/notify.min.js"></script>
     <script>
         colors = ['fuchsia ', 'blue', 'red', 'green', 'purple', 'orange', 'pink', 'teal', 'cobalt', 'blue', 'red', 'green', 'purple', 'orange', 'pink', 'teal', 'cobalt', 'brown',  'gray', 'slate', 'tan']
 
         function add_token(token, info, is_annotated){
             var tag = document.createElement("span");
-            if (is_annotated && info.length != 0){
+
+            if (is_annotated && info['filtered_candidates'].length != 0){
                 var rand_color = colors[Math.floor(Math.random() * colors.length)]
-                var cui = info[0][0]
+                var cui = info['filtered_candidates'][0][0]
+                var sem_type = info['pred_type']
+
                 token = _.trim(token)
 
-                ele = '<span class="highlight bottom '+ rand_color +' " data-label="LOC"> \
-                            <span class="highlight__content">'+ token + ' </span> \
-                            <span class="highlight__label"> <strong>'+ cui +'</strong> </span> \
-                            <span class="highlight__tooltip">'+ cui +'</span> \
-                       </span>'
+                ele = `<span class="highlight bottom ${rand_color}" data-label="LOC" onclick="copyToClipboard('${cui}')"> \
+                            <span class="highlight__content">${token} </span> \
+                            <span class="highlight__label"> <strong>${cui}</strong> </span> \
+                            <span class="highlight__label"> <strong>${sem_type}</strong> </span> \
+                            <span class="highlight__tooltip">${cui}</span> \
+                       </span>`
 
                 $("#results").append(ele);
             }
@@ -201,7 +170,7 @@
                     start_nxt = offsets[i+1][0]
                     end_nxt   = offsets[i+1][1]
 
-                    add_token(text.substring(start, end), mentions[i]['filtered_candidates'], true)
+                    add_token(text.substring(start, end), mentions[i], true)
                     tokens = text.substring(end, start_nxt).split(' ')
                     for (j=0; j < tokens.length; j++){
                         add_token(tokens[j], null, false)
@@ -210,17 +179,13 @@
 
                 last_start = offsets[offsets.length - 1][0]
                 last_end   = offsets[offsets.length - 1][1]
-                add_token(text.substring(last_start, last_end), mentions[mentions.length - 1]['filtered_candidates'], true)
+                add_token(text.substring(last_start, last_end), mentions[mentions.length - 1], true)
 
                 tokens = text.substring(last_end, text.length).split(' ')
                 for (j=0; j < tokens.length; j++){
                     add_token(tokens[j], null, false)
                 }
             }
-
-
-            // console.log(mentions)
-            // console.log(text)
         }
 
         function call_linker(){
@@ -239,9 +204,16 @@
                 }
             }
 
+            model2url = {
+                'general_model': 'https://brandy.lti.cs.cmu.edu:8124/run_linker',
+                'pubmed_model' : 'https://brandy.lti.cs.cmu.edu:8125/run_linker',
+                'ehr_model'    : 'https://brandy.lti.cs.cmu.edu:8126/run_linker'
+            }
+            
+            console.log(model2url, model, model2url[model])
             $.ajax({
                 type: "POST",
-                url: "http://brandy.lti.cs.cmu.edu:8125/run_linker",
+                url: model2url[model],
                 success: update_results,
                 data: JSON.stringify(msg),
                 dataType: "json",
@@ -255,296 +227,16 @@
             document.getElementById('linker_picker').disabled = false;
         }
 
+        function copyToClipboard(text) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val(text).select();
+            document.execCommand("copy");
+            $temp.remove();
+            $.notify("Copied " + text, "success");
+        }
+
     </script>
 
-    <!-- <canvas id="canvas"></canvas>
-    <script src="./medtype_ui/demo-util.js"></script>
-    <script src="./medtype_ui/codemirror.js"></script>
-    <script src="./medtype_ui/tensor.js"></script>
-    <script src="./medtype_ui/lstm.js"></script>
-    <script src="./medtype_ui/scrollpastend.js"></script>
-    <script src="./medtype_ui/placeholder.js"></script>
-    <script src="./medtype_ui/models.js"></script>
-    <script src="./medtype_ui/util.js"></script>
-    <script>
-
-        document.getElementById('model_picker').innerHTML = ''
-        for(let k in models){
-            document.getElementById('model_picker').appendChild(new Option(models[k].name || k, k))
-        }
-        
-        
-        
-        var gl = TF.createGL(document.getElementById('canvas')),
-            OutputTensor = TF.OutputTensor,
-            Tensor = TF.Tensor,
-            InPlaceTensor = TF.InPlaceTensor;
-        
-        
-        
-        function destroyTensors(tensors){
-            for(var i = 0; i < tensors.length; i++){
-                if(tensors[i]){
-                    tensors[i].destroy()
-                }
-            }
-        }
-        
-        var allLSTMWeights = [], allLSTMStates = [], denseWeights, denseBias, oneHotVector, charTensor, state, denseOutput, buffer;
-        
-        async function loadModel(){
-            document.getElementById('toolbar').style.display = ''
-            document.getElementById('model_picker').disabled = true;
-            document.getElementById('temperature').disabled = true;
-        
-            var m = models[document.getElementById('model_picker').value],
-                Ns = m.Ns, Ni = m.Ni;
-            
-            console.assert(Ni == m.chars.length);
-        
-            destroyTensors(allLSTMWeights.concat(allLSTMStates, [ denseWeights, denseBias, oneHotVector, charTensor, state, denseOutput, buffer ]))
-        
-            allLSTMWeights = []
-            allLSTMStates = []
-        
-            for(var i = 0; i < (m.layers || 1); i++){
-                allLSTMWeights.push(new Tensor(gl, await loadArrayFromURL(m.path + '/lstm_' + (i+1) + '_combined-'+Ns+'x' + (Ns+( i === 0 ? Ni : Ns)+1) + 'x4')))
-                allLSTMStates.push(new InPlaceTensor(gl, [Ns, 1, 4]))
-            }
-            // lstm1Weights = new Tensor(gl, await loadArrayFromURL(m.path + '/lstm_1_combined-'+Ns+'x' + (Ns+Ni+1) + 'x4'));
-        
-            denseWeights = new Tensor(gl, await loadArrayFromURL(m.path + '/dense_1-weights-kernel-'+Ns+'x'+Ni))
-            denseBias = new Tensor(gl, await loadArrayFromURL(m.path + '/dense_1-weights-bias-'+Ni))
-        
-        
-            oneHotVector = new OutputTensor(gl, [Ni, 1, 4])
-            charTensor = new OutputTensor(gl, [1])
-            // state1 = new InPlaceTensor(gl, [Ns, 1, 4])
-            // state2 = new InPlaceTensor(gl, [Ns, 1, 4])
-            denseOutput = new OutputTensor(gl, [Ni, 1, 4])
-            buffer = new InPlaceTensor(gl, [ 1, 1, 1, 200 ])
-        
-            document.getElementById('model_picker').disabled = false;
-            document.getElementById('temperature').disabled = false;
-            
-        }
-        
-        loadModel()
-        
-        async function generateCompletion(input, temperature = 0.7){
-            var m = models[document.getElementById('model_picker').value],
-                Ns = m.Ns, Ni = m.Ni, chars = m.chars;
-        
-            var startTime = Date.now()
-        
-            input = input.split('').filter(k => chars.indexOf(k) != -1).join('')
-        
-            for(let i = 0; i < buffer.shape[3]; i++){
-                if(i < input.length)
-                    charTensor.update(ndpack([[ chars.indexOf(input[i]), 0, 0, 0 ]]));
-                
-                oneHotVector.run(OneHot, { data: charTensor })
-                // state.run(LSTM, { X: oneHotVector, prev: state, W: lstm1Weights })
-                var previousResult = oneHotVector;
-                for(var j = 0; j < allLSTMWeights.length; j++){
-                    allLSTMStates[j].run(LSTM, { X: previousResult, prev: allLSTMStates[j], W: allLSTMWeights[j] })
-                    previousResult = allLSTMStates[j];
-                }
-        
-                denseOutput.run(FullyConnected, { inputs: previousResult, b: denseBias, W: denseWeights })
-                charTensor.run(WarmSample, { data: denseOutput, temperature: temperature, random: Math.random() })
-                buffer.run(TextureBuffer, { buffer: buffer, data: charTensor, index: i })
-            }
-        
-        
-            await buffer.ready();
-            // buffer._show({ scale: 1 / Ni })
-        
-            var message = Array.from(buffer.read().data).map(k => chars[k]).join('').slice(input.length - 1)
-            console.log('%c' + input + '%c' + message, 'color: black', 'color: blue');
-            return message;
-        }
-        
-        
-        
-        var cm = CodeMirror(document.getElementById('editor'), {
-            value: '',
-            lineWrapping: true,
-            cursorScrollMargin: 50,
-            extraKeys: {
-                Tab: function(cm){
-                    setTimeout(updateCompletion, 20);
-                },
-            },
-            viewportMargin: Infinity,
-            // scrollPastEnd: true,
-            // placeholder: innerWidth < 700 ? 'Swipe right to cycle between synthesized sentences.' : 'Hit Tab to cycle between synthesized sentences.'
-        });
-        
-        
-        
-        cm.on('refresh', function(){
-            // var oh = document.getElementById('preamble').offsetHeight
-        
-            // if (cm.state.preamblePadding != oh) {
-            //     // console.log(oh)
-            //     cm.display.lineSpace.parentNode.style.paddingTop = (oh + 50) + 'px';
-            // }
-        })
-        
-        
-        var abortTyping = false;
-        cm.on('keydown', function(){
-            abortTyping = true;
-            // console.log('abort')
-        })
-        
-        cm.refresh()
-        cm.focus()
-        
-        var isGenerating = false;
-        async function updateCompletion(){
-            if(document.getElementById('model_picker').disabled) return;
-            if(isGenerating) return;
-            isGenerating = true;
-            abortTyping = false
-            // let attempt = Date.now();
-            // currentCompletion = attempt;
-            var m = models[document.getElementById('model_picker').value]
-        
-            var leadingText = (m.prefix + cm.getRange({ line: 0, ch: 0 }, cm.getCursor('from'))).slice(-100);
-            var waitEl = document.createElement('span')
-            waitEl.className = 'waiting'
-            // waitEl.innerHTML = '...'
-            // cm.setBookmark(cm.getCursor('from'), {
-            //     widget: waitEl
-            // })
-        
-            if(!cm.getSelection()) cm.replaceSelection('#', 'around');
-        
-            var mark = cm.markText(cm.getCursor('from'), cm.getCursor('to'), {
-                replacedWith: waitEl,
-                clearWhenEmpty: false,
-                atomic: true
-            })
-            cm.setSelection(cm.getCursor('to'))
-        
-            // return;
-        
-            
-            var text = null;
-            await nextFrame();
-        
-            // if(currentCompletion != attempt) return;
-        
-            var raw_completion = await generateCompletion(leadingText, +document.getElementById('temperature').value);
-            try {
-                text = raw_completion.match(/^.*?((\.|\!|\;)+\s+)/)[0]
-            } catch (err) {
-                text = raw_completion.split(' ').slice(0, -2).join(' ')
-            }
-            
-            if(text){
-                // console.log('new text', text)
-                // var f = mark.find();
-                
-                // mark.clear()
-                // cm.setSelection(f.from, f.to)
-                // cm.replaceRange(text, f.from, f.to)
-                // cm.replaceSelection(text, 'around')
-        
-                for(var i = 0; i < text.length; i++){
-                    // if(currentCompletion != attempt) return;
-                    if(abortTyping) break;
-                    
-                    let f = mark.find();
-                    mark.clear()
-                    cm.setSelection(f.from, f.to)
-                    cm.replaceSelection(text.slice(0, i + 1), 'around')
-                    mark = cm.markText(cm.getCursor('from'), cm.getCursor('to'))
-        
-                    await nextFrame();
-                }
-        
-                // cm.replaceSelection(text, 'around')
-                let f = mark.find();
-                mark.clear()
-                cm.setSelection(f.from, f.to)
-                cm.replaceSelection(text, 'around')
-                mark = cm.markText(cm.getCursor('from'), cm.getCursor('to'))
-        
-            }else{
-                console.warn('unable to find complete sentence', leadingText)
-            }
-        
-            isGenerating = false;
-        }
-        
-        
-        async function typeInitialText(){
-            // let text = cm.options.placeholder;
-            let text = innerWidth < 700 ? 'Swipe right to cycle between synthesized sentences.' : 'Hit Tab to cycle between synthesized sentences.'
-            await nextFrame();
-            for(var i = 0; i < text.length; i++){
-                // if(currentCompletion != attempt) return;
-                if(abortTyping) break;
-                
-                // let f = mark.find();
-                // mark.clear()
-                // cm.setSelection(f.from, f.to)
-                // cm.replaceSelection(text.slice(0, i + 1), 'around')
-                if(text[i] == ' '){
-                    await nextFrame();
-                    await nextFrame();
-                    await nextFrame();
-                }
-        
-                cm.setOption('placeholder', text.slice(0, i + 1))
-                // mark = cm.markText(cm.getCursor('from'), cm.getCursor('to'))
-        
-                await nextFrame();
-                await nextFrame();
-            }
-        }
-        
-        setTimeout(typeInitialText, 500)
-        
-        // https://stackoverflow.com/a/23230280/205784
-        document.addEventListener('touchstart', handleTouchStart, false);        
-        document.addEventListener('touchmove', handleTouchMove, false);
-        var xDown = null;                                                        
-        var yDown = null;                                                        
-        function handleTouchStart(evt) {                                         
-            xDown = evt.touches[0].clientX;                                      
-            yDown = evt.touches[0].clientY;                                      
-        };                                                
-        function handleTouchMove(evt) {
-            if ( ! xDown || ! yDown ) return;
-            var xUp = evt.touches[0].clientX;                                    
-            var yUp = evt.touches[0].clientY;
-            var xDiff = xDown - xUp;
-            var yDiff = yDown - yUp;
-            if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
-                if ( xDiff > 0 ) {
-                    /* left swipe */ 
-                } else {
-                    updateCompletion()
-                }                       
-            }
-            xDown = null;
-            yDown = null;                                             
-        };
-    </script>
-    <script async="" src="./medtype_ui/js"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-        
-          gtag('config', 'UA-83153710-9');
-    </script> -->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <!-- <iframe scrolling="no" frameborder="0" allowtransparency="true" src="./medtype_ui/widget_iframe.2a008290075125adde2d7b849b06a0bb.html" title="Twitter settings iframe" style="display: none;"></iframe> -->
 </body>
-
 </html>
