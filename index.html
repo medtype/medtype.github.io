@@ -205,18 +205,18 @@
             }
 
             model2url = {
-                'general_model': 'https://brandy.lti.cs.cmu.edu:8124/run_linker',
-                'pubmed_model' : 'https://brandy.lti.cs.cmu.edu:8125/run_linker',
-                'ehr_model'    : 'https://brandy.lti.cs.cmu.edu:8126/run_linker'
+                'general_model': 'https://128.2.204.127:8124/run_linker',
+                'pubmed_model' : 'https://128.2.204.127:8125/run_linker',
+                'ehr_model'    : 'https://128.2.204.127:8126/run_linker'
             }
 
-            console.log(model2url, model, model2url[model])
+            console.log(model2url[model])
             $.ajax({
                 type: "POST",
                 url: model2url[model],
                 success: update_results,
                 data: JSON.stringify(msg),
-                dataType: "jsonp",
+                dataType: "json",
                 contentType: "application/json",
                 error: function(e) {
                     console.log(e);
