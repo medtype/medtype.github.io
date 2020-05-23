@@ -219,7 +219,8 @@
                 dataType: "json",
                 contentType: "application/json",
                 error: function(e) {
-                    console.log(e);
+                    $.notify("Error encoutered while accessing the server");
+                    alert('Go here: "https://128.2.204.127:8125/run_linker" and accept ceritificate')
                 },
             });
 
