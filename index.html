@@ -209,14 +209,14 @@
                 'pubmed_model' : 'https://brandy.lti.cs.cmu.edu:8125/run_linker',
                 'ehr_model'    : 'https://brandy.lti.cs.cmu.edu:8126/run_linker'
             }
-            
+
             console.log(model2url, model, model2url[model])
             $.ajax({
                 type: "POST",
                 url: model2url[model],
                 success: update_results,
                 data: JSON.stringify(msg),
-                dataType: "json",
+                dataType: "jsonp",
                 contentType: "application/json",
                 error: function(e) {
                     console.log(e);
