@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0024)https://cyborg.tenso.rs/ -->
 <html>
-<link type="text/css" id="dark-mode" rel="stylesheet" href="https://cyborg.tenso.rs/">
 <style type="text/css" id="dark-mode-custom-style"></style>
 
 <head>
@@ -10,8 +8,8 @@
     <title>MedType</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="An experimental text editor with an embedded neural text synthesizer.">
-    <meta name="keywords" content="neural,text,editor,autocomplete,prediction,generator,neural network,tensorfire">
+    <meta name="description" content="Improving Medical Entity Linking with Semantic Type Prediction">
+    <meta name="keywords" content="neural,medical,linking,knowledge graphs,entity linking,text,editor,prediction,neural network,pytorch,bert-as-service">
     <meta name="author" content="Kevin Kwok">
     <link href="./medtype_ui/main.0a40c150.chunk.css" rel="stylesheet">
     <link rel="stylesheet" href="./medtype_ui/codemirror.css">
@@ -227,7 +225,6 @@
                     add_token(tokens[j], null, false)
                 }
             }
-            
             document.getElementById('model_picker').disabled = false;
             document.getElementById('linker_picker').disabled = false;
             $('.notifyjs-wrapper').trigger('notify-hide');
