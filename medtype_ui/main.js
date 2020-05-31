@@ -1,4 +1,4 @@
-colors = ['fuchsia ', 'red', 'pink', 'green', 'purple', 'orange', 'cobalt', 'blue',  'brown', 'tan']
+colors = ['fuchsia ', 'tan', 'pink', 'green', 'purple', 'orange', 'blue', 'cobalt',  'brown', 'red', 'gray']
 // 'teal'
 
 $( document ).ready(function() {
@@ -29,7 +29,7 @@ function add_token(token, info, is_annotated){
 
     if (is_annotated && info['filtered_candidates'].length != 0){
         if (info['pred_type'] == '') {
-            color = 'gray'
+            color = 'slate'
         }
         else {
             hash_code = hash(info['pred_type'][0])
