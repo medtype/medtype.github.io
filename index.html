@@ -14,8 +14,7 @@
     <link href="./medtype_ui/main.0a40c150.chunk.css" rel="stylesheet">
     <link rel="stylesheet" href="./medtype_ui/codemirror.css">
     <link rel="stylesheet" href="./medtype_ui/style.css">
-    <script type="text/javascript" async="" src="./medtype_ui/analytics.js"></script>
-    <script charset="utf-8" src="./medtype_ui/button.a9e51eea566eab199c00950f37200d0b.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 
 <body data-gr-c-s-loaded="true">
@@ -24,17 +23,7 @@
             <div></div>
         </div>
     </div>
-    <script src="./medtype_ui/sdk.js" async="" crossorigin="anonymous"></script>
-    <script id="facebook-jssdk" src="./medtype_ui/sdk(1).js"></script>
-    <script>
-        (function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=234263839953649';
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
+
     <div id="container">
         <div id="preamble">
             <a href="https://github.com/svjan5/medtype" class="github-corner" aria-label="View source on Github">
@@ -50,14 +39,14 @@
             
             <center>
                 <img src="./medtype_ui/images/logo_noback.png" align="top middle" alt="centered image" style="width: 25em;">
-                <p><a href="https://arxiv.org/abs/2005.00460">Improving Medical Entity Linking with Semantic Type Prediction </a></p>
+                <p><a class="description" href="https://arxiv.org/abs/2005.00460">Improving Medical Entity Linking with Semantic Type Prediction </a></p>
             </center>
         </div>
         <div id="workaround">
             <div id="toolbar" style="">
 
                 <span class="spacer"></span>
-                <span id="weirdness-stuff" class="spacer"> Entity Linker:
+               <!--  <span id="weirdness-stuff" class="spacer"> Entity Linker:
                     <select id="linker_picker" value="linker" onchange="call_linker()">
                         <option value="scispacy">ScispaCy</option>
                         <option value="ctakes">cTAKES</option>
@@ -65,20 +54,59 @@
                         <option value="metamaplite">MetaMapLite</option>
                         <option value="quickumls">QuickUMLS</option>
                     </select>
-                </span>
+                </span> -->
                 <!-- <span class="spacer"></span> -->
 
-                <span id="weirdness-stuff" class="spacer"> MedType Model:
+                <!-- <span id="weirdness-stuff" class="spacer"> MedType Model:
                     <select id="model_picker" value="model" onchange="call_linker()">
                         <option value="general_model">General Text</option>
                         <option value="pubmed_model">BioMedical Research</option>
                         <option value="ehr_model">Electronic Health Records</option>
                     </select>
-                </span>
-                <span class="spacer"></span>
+                </span> -->
+                <center>
+                <div class="row">
+                    <div class="col" align="center">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="linker_picker">Entity Linker</label>
+                            </div>
+                            <select class="custom-select" id="linker_picker" value="linker" onchange="call_linker()">
+                                <option value="scispacy">ScispaCy</option>
+                                <option value="ctakes">cTakes</option>
+                                <option value="metamap">MetaMap</option>
+                                <option value="metamaplite">MetaMapLite</option>
+                                <option value="quickumls">QuickUMLS</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col" align="center">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="model_picker">MedType Model</label>
+                            </div>
+                            <select class="custom-select" id="model_picker" value="linker" onchange="call_linker()">
+                                <option value="general_model">General Text</option>
+                                <option value="pubmed_model">BioMedical Research</option>
+                                <option value="ehr_model">Electronic Health Records</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                </center>
+
                 
+                <span class="spacer"></span>
+
                 <button id="umls-link" onclick="launch_umls()">UMLS Lookup ›</button>
-                <button id="do-stuff" onclick="call_linker()">Run ›</button>
+                
+                <button id="do-stuff" class="btn btn-primary" onclick="call_linker()">Start <span id="initial">›</span> <span id="loader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></button>
+                <!-- <button id="analyse-button" class="btn btn-primary" onclick="call_linker()">
+                Analyse 
+              </button>  -->
             </div>
              <div id="editor">
                 <textarea id="text_input" class="CodeMirror cm-s-default CodeMirror-wrap CodeMirror-focused writer" rows="5" >Tuberculosis (TB) is an infectious disease usually caused by Mycobacterium tuberculosis (MTB) bacteria. Tuberculosis generally affects the lungs, but can also affect other parts of the body. Most infections show no symptoms, in which case it is known as latent tuberculosis. About 10% of latent infections progress to active disease which, if left untreated, kills about half of those affected. The classic symptoms of active TB are a chronic cough with blood-containing mucus, fever, night sweats, and weight loss. It was historically called "consumption" due to the weight loss. Infection of other organs can cause a wide range of symptoms.</textarea>
@@ -102,194 +130,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="./medtype_ui/lodash.js"></script>
     <script src="./medtype_ui/notify.min.js"></script>
-    <script>
-        colors = ['fuchsia ', 'blue', 'red', 'green', 'purple', 'orange', 'pink', 'teal', 'cobalt', 'blue', 'red', 'green', 'purple', 'orange', 'pink', 'teal', 'cobalt', 'brown',  'gray', 'slate', 'tan']
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+    <script src="./medtype_ui/main.js"></script>
 
-        function add_token(token, info, is_annotated){
-            console.log(token, info, is_annotated)
-            var tag = document.createElement("span");
-
-            if (is_annotated && info['filtered_candidates'].length != 0){
-                var rand_color = colors[Math.floor(Math.random() * colors.length)]
-                var cui = info['filtered_candidates'][0][0]
-                var sem_type = info['pred_type']
-
-                token = _.trim(token)
-
-                ele = `<span class="highlight bottom ${rand_color}" data-label="LOC" onclick="copyToClipboard('${cui}')"> \
-                            <span class="highlight__content">${token} </span> \
-                            <span class="highlight__label"> <strong>${cui}</strong> </span> \
-                            <span class="highlight__label"> <strong>${sem_type}</strong> </span> \
-                            <span class="highlight__tooltip">${cui}</span> \
-                       </span>`
-
-                $("#results").append(ele);
-            }
-            else{
-                $("#results").append('<span>' + token + ' </span>');
-            }
-        }
-
-        function update_results(resp){
-             console.log(resp)
-
-            $( "#results" ).empty();
-
-            mentions = resp['result']['elinks'][0]['mentions']
-            text     = resp['result']['elinks'][0]['text']
-            offsets  = []
-
-            if (mentions.length == 0){
-                add_token(text, null, false)
-            }
-
-            else{
-                mentions = _.sortBy(mentions, [function(x) {return x['end_offset'];} ])
-
-                console.log('before')
-                console.log(mentions)
-                // Remove overlapping mentions
-                for (i = mentions.length-1; i > 0 && i < mentions.length; i--){
-                    curr = mentions[i]
-                    prev = mentions[i-1]
-
-                    if (curr['end_offset'] == prev['end_offset']){
-                        if ((curr['end_offset'] - curr['start_offset']) > (prev['end_offset'] - prev['start_offset'])){
-                            mentions.splice(i-1, 1)
-                        }
-                        else {
-                            mentions.splice(i, 1)
-                        }
-                    }
-                }
-
-
-                mentions = _.sortBy(mentions, [function(x) {return x['start_offset'];} ])
-
-                console.log('before')
-                console.log(mentions)
-                // Remove overlapping mentions
-                for (i = mentions.length-1; i > 0 && i < mentions.length; i--){
-                    curr = mentions[i]
-                    prev = mentions[i-1]
-
-                    if (curr['start_offset'] == prev['start_offset']){
-                        if ((curr['end_offset'] - curr['start_offset']) > (prev['end_offset'] - prev['start_offset'])){
-                            mentions.splice(i-1, 1)
-                        }
-                        else {
-                            mentions.splice(i, 1)
-                        }
-                    }
-                }
-
-                console.log('after')
-                console.log(mentions)
-
-                for (i=0; i < mentions.length; i++){
-                    offsets.push([mentions[i]['start_offset'], mentions[i]['end_offset']])
-                }
-                console.log(offsets)
-
-                console.log('beginning')
-                first_start = offsets[0][0]
-                if (first_start != 0){
-                    tokens = text.substring(0, first_start).split(' ')
-                    for (j=0; j < tokens.length; j++){
-                        add_token(tokens[j], null, false)
-                    }
-                }
-
-                console.log('middle')
-                for (i=0; i < offsets.length - 1; i++){
-                    start     = offsets[i][0]
-                    end       = offsets[i][1]
-                    start_nxt = offsets[i+1][0]
-                    end_nxt   = offsets[i+1][1]
-
-                    add_token(text.substring(start, end), mentions[i], true)
-                    tokens = text.substring(end, start_nxt).split(' ')
-                    for (j=0; j < tokens.length; j++){
-                        add_token(tokens[j], null, false)
-                    }
-                }
-
-                console.log('end')
-
-                last_start = offsets[offsets.length - 1][0]
-                last_end   = offsets[offsets.length - 1][1]
-                add_token(text.substring(last_start, last_end), mentions[mentions.length - 1], true)
-
-                tokens = text.substring(last_end, text.length).split(' ')
-                for (j=0; j < tokens.length; j++){
-                    add_token(tokens[j], null, false)
-                }
-            }
-            document.getElementById('model_picker').disabled = false;
-            document.getElementById('linker_picker').disabled = false;
-            $('.notifyjs-wrapper').trigger('notify-hide');
-        }
-
-        function call_linker(){
-            $.notify("Loading", "info");
-
-            document.getElementById('model_picker').disabled = true;
-            document.getElementById('linker_picker').disabled = true;
-
-            text   = document.getElementById('text_input').value
-            model  = document.getElementById('model_picker').value.toLowerCase()
-            linker = document.getElementById('linker_picker').value.toLowerCase()
-
-            msg  = {
-                "id": Math.floor(Math.random() *  100000),
-                "data": {
-                    "text": [text],
-                    "entity_linker": linker
-                }
-            }
-
-            model2url = {
-                'general_model': 'https://128.2.204.127:8124/run_linker',
-                'pubmed_model' : 'https://128.2.204.127:8125/run_linker',
-                'ehr_model'    : 'https://128.2.204.127:8126/run_linker'
-            }
-
-            console.log(model2url[model])
-            $.ajax({
-                type: "POST",
-                url: model2url[model],
-                success: update_results,
-                data: JSON.stringify(msg),
-                dataType: "json",
-                contentType: "application/json",
-                error: function(e) {
-                    $.notify("Error encoutered while accessing the server");
-                    alert('Need to accept the certificate before accessing the demo. Press Ok to continue. Come back to this page once done!')
-                    window.open("https://128.2.204.127:8125/run_linker");
-                },
-            });
-        }
-
-        function copyToClipboard(text) {
-            var $temp = $("<input>");
-            $("body").append($temp);
-            $temp.val(text).select();
-            document.execCommand("copy");
-            $temp.remove();
-            $.notify("Copied " + text, "success");
-        }
-
-        function launch_umls(){
-            window.open("https://uts.nlm.nih.gov/metathesaurus.html");
-        }
-
-        $(document).keydown(function(event) {            
-            if ((event.ctrlKey && event.keyCode === 13) || (event.metaKey && event.keyCode === 13)) {
-                call_linker()
-            }
-        })
-
-    </script>
 
 </body>
 </html>
