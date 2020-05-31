@@ -1,4 +1,4 @@
-colors = ['fuchsia ', 'tan', 'pink', 'green', 'purple', 'orange', 'blue', 'cobalt',  'brown', 'red', 'gray']
+colors = ['orange ', 'tan', 'cobalt', 'green', 'purple', 'orange', 'blue', 'cobalt',  'brown', 'red', 'gray']
 // 'teal'
 
 $( document ).ready(function() {
