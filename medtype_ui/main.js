@@ -206,7 +206,8 @@ function call_linker(){
         contentType: "application/json",
         error: function(e) {
             $.notify("Error encoutered while accessing the server");
-            alert('Need to accept the certificate before accessing the demo. Press Ok to continue. Come back to this page once done!')
+            alert('Need to accept the self-signed certificate first before accessing the demo. Press Ok to continue. Come back to this page once done! \
+                In case your browser does not give the option to accept the certificate, please try with another browser. Thanks!')
             window.open("https://128.2.204.127:8125/run_linker");
         },
     });
